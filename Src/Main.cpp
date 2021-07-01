@@ -6,8 +6,8 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <iostream>
-#include "shader_m.h"
-#include "stb_image.h"
+#include "../Header/shader_m.h"
+#include "../Header/stb_image.h"
 
 
 
