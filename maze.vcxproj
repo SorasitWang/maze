@@ -149,11 +149,20 @@
     <ClCompile Include="Src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header\camera.h" />
-    <ClInclude Include="Header\mesh.h" />
-    <ClInclude Include="Header\model.h" />
-    <ClInclude Include="Header\shader_m.h" />
-    <ClInclude Include="Header\stb_image.h" />
+    <ClInclude Include="Cam.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="Header\Plane\shader_m.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="light.fs" />
+    <None Include="light.vs" />
+    <None Include="plane.fs" />
+    <None Include="plane.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

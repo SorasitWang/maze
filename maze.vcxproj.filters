@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Plane">
+      <UniqueIdentifier>{278beec5-23ad-4b4b-92c7-f4f55f7ce8d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Light">
+      <UniqueIdentifier>{1d738001-f9ec-4852-9b19-21aa36284c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Camera">
+      <UniqueIdentifier>{ad6b309d-f39e-46b7-86ee-036d3645ee09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\glad.c">
@@ -23,20 +32,43 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header\shader_m.h">
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Plane\shader_m.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\stb_image.h">
+    <ClInclude Include="stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\camera.h">
+    <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\mesh.h">
+    <ClInclude Include="mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\model.h">
+    <ClInclude Include="model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Cam.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="plane.fs">
+      <Filter>Header Files\Plane</Filter>
+    </None>
+    <None Include="plane.vs">
+      <Filter>Header Files\Plane</Filter>
+    </None>
+    <None Include="light.fs">
+      <Filter>Header Files\Light</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>Header Files\Light</Filter>
+    </None>
   </ItemGroup>
 </Project>
