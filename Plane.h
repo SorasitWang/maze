@@ -1,3 +1,4 @@
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm/glm.hpp>
@@ -15,10 +16,10 @@
 class Plane {
 
 public:
-    Plane() {
-        
+    Plane(float s) {
+        this->size = s;
     };
-
+    float size;
     unsigned int VAO, VBO, EBO;
     struct material {
         glm::vec3 diffuse = glm::vec3(0.7f,0.1f,0.0f);
@@ -30,10 +31,10 @@ public:
     void init(Shader shader) {
         
         float vertices[] = {
-           10.0f, -0.5f, 10.0f,     0.0f,1.0f,0.0f, // top right
-           10.0f, -0.5f, -10.0f,    0.0f,1.0f,0.0f, // bottom right
-          -10.0f, -0.5f,-10.0f,     0.0f,1.0f,0.0f, // bottom left
-          -10.0f, -0.5f, 10.0f,     0.0f,1.0f,0.0f
+           size, -0.5f, size,     0.0f,1.0f,0.0f, // top right
+           size, -0.5f, -size,    0.0f,1.0f,0.0f, // bottom right
+          -size, -0.5f,-size,     0.0f,1.0f,0.0f, // bottom left
+          -size, -0.5f, size,     0.0f,1.0f,0.0f
         };
         /*float vertices[] = {
        -0.5f, -0.5f, 0.0f, // left  

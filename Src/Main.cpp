@@ -12,7 +12,9 @@
 #include <iostream>
 #include "../plane.h"
 #include "../Cam.h"
-
+#include "../Wall.h"
+#include "../Light.h"
+#include "../Character.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -20,8 +22,12 @@ void processInput(GLFWwindow* window);
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+float size = 4;
 
 Cam camera = Cam();
+
+Character character = Character(0);
+
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -30,6 +36,7 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
 int main()
 {
 
@@ -62,18 +69,30 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+    Shader lightShader("light.vs", "light.fs");
+    Light light = Light();
+
+
+    Shader planeShader("plane.vs", "plane.fs");
+    Plane plane = Plane(size);
+
+
+    Shader wallShader("plane.vs", "plane.fs");
+    Wall wall = Wall(size);
+
+
+    Shader charShader("plane.vs", "plane.fs");
+    character = Character(size);
+
+    light.init(lightShader);
+    plane.init(planeShader);
+    character.init(charShader);
+    wall.init(wallShader);
 
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader lightShader("light.vs", "light.fs");
-    Light light = Light();
-    light.init(lightShader);
-
-    Shader planeShader("plane.vs", "plane.fs");
-    Plane plane = Plane();
    
-    plane.init(planeShader);
 
     while (!glfwWindowShouldClose(window))
     {   
@@ -100,6 +119,8 @@ int main()
         
         plane.draw(planeShader,projection,view,light,camera);
         light.draw(lightShader, projection, view,camera);
+        wall.draw(wallShader, projection, view, light, camera);
+        character.draw(wallShader, projection, view, light, camera);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -118,14 +139,24 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        character.move(FORWARD, deltaTime);
         camera.cam.ProcessKeyboard(FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        character.move(BACKWARD, deltaTime);
         camera.cam.ProcessKeyboard(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        character.move(LEFT, deltaTime);
         camera.cam.ProcessKeyboard(LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    }
+        
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        character.move(RIGHT, deltaTime);
         camera.cam.ProcessKeyboard(RIGHT, deltaTime);
+    }
+        
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

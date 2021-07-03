@@ -1,3 +1,4 @@
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm/glm.hpp>
@@ -19,11 +20,11 @@ public:
     };
     int view = 0;
     struct properties {
-        glm::vec3 position = glm::vec3(1.2f, 1.0f, 2.0f);
+        glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
 
-        glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-        glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-        glm::vec3 specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        glm::vec3 ambient = glm::vec3(0.3f, 0.3f, 0.3f);
+        glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
+        glm::vec3 specular = glm::vec3(0.0f, 0.0f, 0.0f);
     } property;
     unsigned int VAO, VBO;
 

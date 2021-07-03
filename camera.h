@@ -18,16 +18,17 @@ enum Camera_Movement {
 // Default camera values
 const float YAW = -90.0f;
 const float PITCH = 0.0f;
-const float SPEED = 2.5f;
+
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
-
+const float SPEED = 2.5f;
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
 {
 public:
     // camera Attributes
+    
     glm::vec3 Position;
     glm::vec3 Front;
     glm::vec3 Up;
@@ -111,8 +112,14 @@ public:
         if (Zoom > 45.0f)
             Zoom = 45.0f;
     }
+    /*void setSpeed(float newSpeed) {
+        if (newSpeed < 0) newSpeed = 0;
+        this->SPEED = newSpeed;
+    }*/
 
 private:
+
+    
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()
     {
@@ -126,5 +133,6 @@ private:
         Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
         Up = glm::normalize(glm::cross(Right, Front));
     }
+
 };
 #endif
