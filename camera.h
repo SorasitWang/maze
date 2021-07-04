@@ -65,14 +65,21 @@ public:
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix(glm::vec3 position, glm::vec3 front,glm::vec3 up)
     {
-        std::cout << position.x << " " << position.y <<" " << position.z << std::endl;
+        /*std::cout << position.x << " " << position.y <<" " << position.z << std::endl;
         std::cout << Position.x << " " << Position.y <<" " << Position.z << std::endl;
-        std::cout << std::endl;
+        std::cout << std::endl;*/
         //return glm::lookAt(Position, Position + Front, Up);
-        if (view==0)
-            return glm::lookAt(position,position + front, up);
-        if (view == 1)
-            return glm::lookAt(glm::vec3(position.x,5,position.z), position , up*-1.0f);
+        
+        if (view == 0) {
+            Position = position;
+            Front = front;
+            return glm::lookAt(position, position + front, up);
+        }
+        if (view == 1) {
+            Position = glm::vec3(position.x, 10, position.z);
+            return glm::lookAt(glm::vec3(position.x, 10, position.z), position, up);
+        }
+            
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -92,12 +99,17 @@ public:
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
     {
+        if (view == 1) {
+            updateCameraVectors();
+            return;
+        }
         xoffset *= MouseSensitivity;
-        yoffset *= MouseSensitivity;
+       
 
         Yaw += xoffset;
+        yoffset *= MouseSensitivity;
         Pitch += yoffset;
-
+       
         // make sure that when pitch is out of bounds, screen doesn't get flipped
         if (constrainPitch)
         {
@@ -136,14 +148,17 @@ private:
     void updateCameraVectors()
     {
         // calculate the new Front vector
-        glm::vec3 front;
-        front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        front.y = sin(glm::radians(Pitch));
-        front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        Front = glm::normalize(front);
-        // also re-calculate the Right and Up vector
-        Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        //Up = glm::normalize(glm::cross(Right, Front));
+
+            glm::vec3 front;
+            front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+            front.y = sin(glm::radians(Pitch));
+            front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+            Front = glm::normalize(front);
+            // also re-calculate the Right and Up vector
+            Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+            //Up = glm::normalize(glm::cross(Right, Front));
+        
+        
     }
 
 };

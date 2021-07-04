@@ -91,9 +91,19 @@ public:
 
         shader.setVec3("viewPos", camera.Position);
 
+        
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
 
         shader.setVec3("light.ambient", light.property.ambient);
-        shader.setVec3("light.position", light.property.position);
+        if (camera.view == 0) {
+            shader.setVec3("light.position", camera.Position);
+            shader.setVec3("light.direction", camera.Front);
+        }
+        else {
+            shader.setVec3("light.position", camera.Position);
+            shader.setVec3("light.direction", glm::vec3(0.0f, -1.0f, 0.0f));
+        }
         shader.setVec3("light.specular", light.property.specular);
         shader.setVec3("light.diffuse", light.property.diffuse);
 

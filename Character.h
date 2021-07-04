@@ -47,8 +47,8 @@ public:
     glm::vec3 right;
     glm::vec3 worldUp;
     // euler Angles
-    float yaw= - 90.0f;
-    float pitch = 0.0f;
+    float yaw= -89.5f;
+    float pitch = -0.1f;
 
     glm::vec3 startPos = glm::vec3(0, 0, 0);
 
@@ -137,16 +137,20 @@ public:
 
         shader.setVec3("viewPos", camera.Position);
 
-
+        shader.setVec3("light.direction", camera.Front);
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
         shader.setVec3("light.ambient", light.property.ambient);
         shader.setVec3("light.position", light.property.position);
         shader.setVec3("light.specular", light.property.specular);
         shader.setVec3("light.diffuse", light.property.diffuse);
 
-        glBindVertexArray(this->VAO);
+        if (camera.view == 1) {
+            glBindVertexArray(this->VAO);
 
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+            glBindVertexArray(0);
+        }
        
     }
 
@@ -195,8 +199,14 @@ public:
 
     }
 
-    void processMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
+    void processMovement(float xoffset, float yoffset, int view, GLboolean constrainPitch = true)
     {
+        if (view == 1) {
+            updateVectors();
+            return;
+        }
+        //return;
+        std::cout << pitch<<" " <<yaw << std::endl;
         xoffset *= movement.sensitivity;
         yoffset *= movement.sensitivity;
 

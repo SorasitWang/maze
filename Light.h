@@ -23,8 +23,10 @@ public:
         glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
 
         glm::vec3 ambient = glm::vec3(0.3f, 0.3f, 0.3f);
-        glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
+        glm::vec3 diffuse = glm::vec3(0.9f, 0.9f, 0.9f);
         glm::vec3 specular = glm::vec3(0.0f, 0.0f, 0.0f);
+        float cutoff = 70.0f;
+        float outerCutoff = 80.0f;
     } property;
     unsigned int VAO, VBO;
 

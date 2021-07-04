@@ -199,7 +199,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     lastX = xpos;
     lastY = ypos;
-    character.processMovement(xoffset, yoffset);
+    character.processMovement(xoffset, yoffset,cam.view);
     cam.ProcessMouseMovement(xoffset, yoffset);
 }
 
