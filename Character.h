@@ -31,23 +31,29 @@ public:
     } property;
 
     struct movement {
+        bool jump = false;
         float speed = 2.5;
-        float jumpSpeed = 0;
+        float jumpAcc = 5;
+        float jumpTimeMax = 1;
+        float jumpTime = 0;
         float jumpHight = 1.0;
         float tureRate = 0;
+        float sensitivity = 0.1f;
     } movement;
 
     glm::vec3 position;
     glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 up;
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
     glm::vec3 right;
-    glm::vec3 WorldUp;
+    glm::vec3 worldUp;
     // euler Angles
-    float Yaw;
+    float yaw= - 90.0f;
+    float pitch = 0.0f;
 
-    glm::vec3 startPos = glm::vec3(-(idx-0.5), -0.25, -(idx - 0.5));
+    glm::vec3 startPos = glm::vec3(0, 0, 0);
 
     void init(Shader shader) {
+        this->worldUp = up;
         float vertices[] = {
         -0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
          0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
@@ -110,7 +116,10 @@ public:
         glEnableVertexAttribArray(1);
     }
 
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, Cam camera) {
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, Camera camera, float deltatime) {
+        if (movement.jump == true) {
+            jump(deltatime);
+        }
         shader.use();
         
         glm::mat4 model = glm::mat4(1.0f);
@@ -126,7 +135,7 @@ public:
         shader.setVec3("material.specular", property.specular);
         shader.setFloat("material.shininess", property.shininess);
 
-        shader.setVec3("viewPos", camera.position);
+        shader.setVec3("viewPos", camera.Position);
 
 
         shader.setVec3("light.ambient", light.property.ambient);
@@ -145,7 +154,7 @@ public:
 
         float velocity = movement.speed * deltatime;
         if (direction == FORWARD) {
-            position += front * velocity;
+            position += glm::vec3(front.x,0,front.z) * velocity;
         }
         if (direction == LEFT) {
             position -= right * velocity;
@@ -154,13 +163,77 @@ public:
             position += right* velocity;
         }
         if (direction == BACKWARD) {
-            position -= front * velocity;
+            position -= glm::vec3(front.x, 0, front.z) * velocity;
         }
     }
 
     void jump(float deltatime) {
+        
+        
+        if (movement.jumpTime >= movement.jumpTimeMax) {
+            //movement.jump = false;
+            if (movement.jumpAcc < 0) { //falling down
+                movement.jump = false;
+                position = startPos;
+            }
+            else {
+                movement.jumpTime = movement.jumpTimeMax;
+                movement.jumpTime += deltatime;
+                float _veclocity = movement.jumpAcc * movement.jumpTime;
+                float velocity = _veclocity * deltatime;
+                position += glm::vec3(0, 1, 0) * velocity;
+            }
+            movement.jumpAcc *= -1;
+            movement.jumpTime = 0;
+            return;
+        }
+        movement.jumpTime += deltatime;
+        float _veclocity = movement.jumpAcc * movement.jumpTime;
+        float velocity = _veclocity * deltatime;
+        position += glm::vec3(0,1,0) * velocity;
+        std::cout << movement.jumpTime << " - " << movement.jumpTimeMax << " - " << movement.jumpAcc << std::endl;
 
     }
+
+    void processMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
+    {
+        xoffset *= movement.sensitivity;
+        yoffset *= movement.sensitivity;
+
+        yaw += xoffset;
+        pitch += yoffset;
+
+        // make sure that when pitch is out of bounds, screen doesn't get flipped
+        if (constrainPitch)
+        {
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            if (pitch < -89.0f)
+                pitch = -89.0f;
+        }
+
+        // update Front, Right and Up Vectors using the updated Euler angles
+        updateVectors();
+    }
+    void setJump() {
+        if (movement.jump == false) {
+            movement.jump = true;
+        }
+    }
+    private :
+
+        void updateVectors()
+        {
+            // calculate the new Front vector
+            glm::vec3 _front;
+            _front.x = cos(glm::radians(yaw)) *cos(glm::radians(pitch));
+            _front.y = sin(glm::radians(pitch));
+            _front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            front = glm::normalize(_front);
+            // also re-calculate the Right and Up vector
+            right = glm::normalize(glm::cross(front, worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+            up = glm::normalize(glm::cross(right, front));
+        }
 
 
 };

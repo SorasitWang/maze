@@ -42,6 +42,7 @@ public:
     float MouseSensitivity;
     float Zoom;
 
+    int view = 1;
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
@@ -62,9 +63,16 @@ public:
     }
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
-    glm::mat4 GetViewMatrix()
+    glm::mat4 GetViewMatrix(glm::vec3 position, glm::vec3 front,glm::vec3 up)
     {
-        return glm::lookAt(Position, Position + Front, Up);
+        std::cout << position.x << " " << position.y <<" " << position.z << std::endl;
+        std::cout << Position.x << " " << Position.y <<" " << Position.z << std::endl;
+        std::cout << std::endl;
+        //return glm::lookAt(Position, Position + Front, Up);
+        if (view==0)
+            return glm::lookAt(position,position + front, up);
+        if (view == 1)
+            return glm::lookAt(glm::vec3(position.x,5,position.z), position , up*-1.0f);
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -112,10 +120,14 @@ public:
         if (Zoom > 45.0f)
             Zoom = 45.0f;
     }
-    /*void setSpeed(float newSpeed) {
-        if (newSpeed < 0) newSpeed = 0;
-        this->SPEED = newSpeed;
-    }*/
+    void changeView() {
+       if (view == 0) {
+            view = 1;
+       }
+        else {
+           view = 0;
+        }
+    }
 
 private:
 
@@ -131,7 +143,7 @@ private:
         Front = glm::normalize(front);
         // also re-calculate the Right and Up vector
         Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        Up = glm::normalize(glm::cross(Right, Front));
+        //Up = glm::normalize(glm::cross(Right, Front));
     }
 
 };

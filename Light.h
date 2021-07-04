@@ -92,7 +92,7 @@ public:
         glEnableVertexAttribArray(0);
     }
 
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Cam camera) {
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Camera camera) {
 
         shader.use();
 

@@ -19,12 +19,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 float size = 4;
 
-Cam camera = Cam();
+Camera cam = Camera();
 
 Character character = Character(0);
 
@@ -61,6 +62,7 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
+    glfwSetKeyCallback(window, key_callback);
 
     // tell GLFW to capture our mouse
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -109,18 +111,18 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 projection = glm::perspective(glm::radians(camera.cam.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 view = camera.cam.GetViewMatrix();
+        glm::mat4 projection = glm::perspective(glm::radians(cam.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = cam.GetViewMatrix(character.position, character.front, character.up);
 
         
 
         // camera/view transformation
         
         
-        plane.draw(planeShader,projection,view,light,camera);
-        light.draw(lightShader, projection, view,camera);
-        wall.draw(wallShader, projection, view, light, camera);
-        character.draw(wallShader, projection, view, light, camera);
+        plane.draw(planeShader,projection,view,light,cam);
+        light.draw(lightShader, projection, view,cam);
+        wall.draw(wallShader, projection, view, light, cam);
+        character.draw(wallShader, projection, view, light, cam,deltaTime);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -141,22 +143,34 @@ void processInput(GLFWwindow* window)
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         character.move(FORWARD, deltaTime);
-        camera.cam.ProcessKeyboard(FORWARD, deltaTime);
+        cam.ProcessKeyboard(FORWARD, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
         character.move(BACKWARD, deltaTime);
-        camera.cam.ProcessKeyboard(BACKWARD, deltaTime);
+        cam.ProcessKeyboard(BACKWARD, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
         character.move(LEFT, deltaTime);
-        camera.cam.ProcessKeyboard(LEFT, deltaTime);
+        cam.ProcessKeyboard(LEFT, deltaTime);
     }
         
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
         character.move(RIGHT, deltaTime);
-        camera.cam.ProcessKeyboard(RIGHT, deltaTime);
+        cam.ProcessKeyboard(RIGHT, deltaTime);
     }
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        character.setJump();
+    }
+   
         
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
+    {
+        cam.changeView();
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -185,13 +199,13 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     lastX = xpos;
     lastY = ypos;
-
-    camera.cam.ProcessMouseMovement(xoffset, yoffset);
+    character.processMovement(xoffset, yoffset);
+    cam.ProcessMouseMovement(xoffset, yoffset);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
 // ----------------------------------------------------------------------
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    camera.cam.ProcessMouseScroll(yoffset);
+    cam.ProcessMouseScroll(yoffset);
 }

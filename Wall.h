@@ -118,7 +118,7 @@ public :
         glEnableVertexAttribArray(1);
 	}
 
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, Cam camera) {
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, Camera camera) {
         shader.use();
         shader.setMat4("model", glm::mat4(1.0f));
         shader.setMat4("projection", projection);
@@ -128,7 +128,7 @@ public :
         shader.setVec3("material.specular", property.specular);
         shader.setFloat("material.shininess", property.shininess);
 
-        shader.setVec3("viewPos", camera.position);
+        shader.setVec3("viewPos", camera.Position);
 
 
         shader.setVec3("light.ambient", light.property.ambient);
