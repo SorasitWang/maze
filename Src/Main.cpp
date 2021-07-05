@@ -23,7 +23,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-float size = 4;
+float size = 6;
 
 Camera cam = Camera();
 
