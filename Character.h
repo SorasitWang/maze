@@ -50,7 +50,7 @@ public:
     float yaw= -89.5f;
     float pitch = -0.1f;
 
-    glm::vec3 startPos = glm::vec3(0, 0, 0);
+    glm::vec3 startPos = glm::vec3(5.6, 0,5.6);
 
     void init(Shader shader) {
         this->worldUp = up;
@@ -154,20 +154,27 @@ public:
        
     }
 
-    void move(Camera_Movement direction, float deltatime) {
-
+    void move(Camera_Movement direction, float deltatime,Wall wall) {
+        glm::vec3 tmpPos;
         float velocity = movement.speed * deltatime;
+
         if (direction == FORWARD) {
-            position += glm::vec3(front.x,0,front.z) * velocity;
+            tmpPos = glm::vec3(front.x,0,front.z) * velocity;
         }
         if (direction == LEFT) {
-            position -= right * velocity;
+            tmpPos = glm::vec3(-1, -1,-1) *right * velocity;
         }
         if (direction == RIGHT) {
-            position += right* velocity;
+            tmpPos = right* velocity;
         }
         if (direction == BACKWARD) {
-            position -= glm::vec3(front.x, 0, front.z) * velocity;
+            tmpPos = glm::vec3(-1, -1, -1) *glm::vec3(front.x, 0, front.z) * velocity;
+        }
+
+
+        if (wall.isCol(position+tmpPos, 0.05, 0.05, 0.05) == false) {
+            position += tmpPos;
+            
         }
     }
 
@@ -201,12 +208,13 @@ public:
 
     void processMovement(float xoffset, float yoffset, int view, GLboolean constrainPitch = true)
     {
+        //std::cout << pitch << " " << yaw << std::endl;
         if (view == 1) {
             updateVectors();
             return;
         }
         //return;
-        std::cout << pitch<<" " <<yaw << std::endl;
+        
         xoffset *= movement.sensitivity;
         yoffset *= movement.sensitivity;
 
@@ -224,6 +232,14 @@ public:
 
         // update Front, Right and Up Vectors using the updated Euler angles
         updateVectors();
+    }
+
+    void changeView(int view) {
+        if (view == 1) {
+            yaw = -89.5f;
+            pitch = -0.1f;
+            updateVectors();
+        }
     }
     void setJump() {
         if (movement.jump == false) {

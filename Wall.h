@@ -46,9 +46,14 @@ public :
         border.push_back(std::vector<float> {-6.0f * size / 10, 4.0f * size / 10, -6.0f * size / 10, -8.0f * size / 10});
 
         border.push_back(std::vector<float> {-8.0f * size / 10, -10.0f * size / 10, -8.0f * size / 10, 8.0f * size / 10});
+
+        border.push_back(std::vector<float> {0.0f * size / 10, -8.0f * size / 10, 6.0f * size / 10, -8.0f * size / 10});
+        border.push_back(std::vector<float> {-4.0f * size / 10, -8.0f * size / 10, -8.0f * size / 10, -8.0f * size / 10});
+
+        border.push_back(std::vector<float> {0.0f * size / 10, -6.0f * size / 10, 8.0f * size / 10, -6.0f * size / 10});
         //inner wall
 	};
-    float size = 8, hight = 4 , thin = 0.4;
+    float size = 8, hight = 4, thin = 0.4;
     std::vector<std::vector<float>>border;
     std::vector<std::vector<float>> innerWall;
     
@@ -62,6 +67,7 @@ public :
 
 	void init(Shader shader) {
         int size;
+        float base = -0.5f;
         float vertices[120*20];// = new float[2*3*4*mapping.size()];
         int index[30*20];// = new int[6 * mapping.size()];
 
@@ -79,7 +85,7 @@ public :
                 face.push_back(std::vector<float> {border[j][0] - thin / 2, border[j][3], border[j][2] + thin / 2, border[j][3] });
                 face.push_back(std::vector<float> {border[j][2] + thin / 2, border[j][1], border[j][2] + thin / 2, border[j][3] });
             }
-            float base = -0.5f;
+            
             float x, z = 0;
             for (int i = 0; i < face.size(); i++) {
 
@@ -191,8 +197,8 @@ public :
             shader.setVec3("light.position", camera.Position);
             shader.setVec3("light.direction", glm::vec3(0.0f, -1.0f, 0.0f));
         }
-        shader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(light.property.cutoff)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(light.property.outerCutoff)));
 
         shader.setVec3("light.ambient", light.property.ambient);
         shader.setVec3("light.specular", light.property.specular);
@@ -204,6 +210,45 @@ public :
         glDrawElements(GL_TRIANGLES, 30*20, GL_UNSIGNED_INT, 0);
 
         glBindVertexArray(0);
+    }
+    // x y z is in the center , sizeX Y Z is half of actually SIZE
+    bool isCol(glm::vec3 position,float sizeX, float sizeY,float sizeZ) {
+        float x,y,z,base=-0.5f;
+        x = position.x;  y = position.y; z = position.z;
+      
+        if ( (y + sizeY < base) || (y - sizeY > base + hight)) return false;
+        
+        bool tmp = false;
+        for (int i = 0; i < border.size(); i++) {
+            //check wall along z
+            if (border[i][0] == border[i][2]) {
+                //check x
+                if ((abs(x + sizeX - border[i][0]) < thin/2) || (abs(x - sizeX - border[i][0]) < thin/2)) {
+                    //check z
+                    //std::cout << z << " " << sizeZ << " " << border[i][1] << " " << border[i][3] << " " << thin << std::endl;
+                    if ( (z - sizeZ > std::max(border[i][1], border[i][3])) || (z + sizeZ < std::min(border[i][1], border[i][3]) ) ){
+                    }
+                    else {
+                        //std::cout << "x" << std::endl;
+                        return true;
+                    }
+                }
+            }
+            //check wall along x
+            else {
+                //check z
+                if ((abs(z + sizeZ - border[i][1]) < thin/2) || (abs(z - sizeZ - border[i][1]) < thin/2)) {
+                    //check x
+                    if ((x - sizeX > std::max(border[i][0], border[i][2])) || (x + sizeX < std::min(border[i][0], border[i][2]))) {
+                    }
+                    else {
+                        //std::cout << "z" << std::endl;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 

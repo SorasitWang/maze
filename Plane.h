@@ -92,8 +92,8 @@ public:
         shader.setVec3("viewPos", camera.Position);
 
         
-        shader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(light.property.cutoff)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(light.property.outerCutoff)));
 
         shader.setVec3("light.ambient", light.property.ambient);
         if (camera.view == 0) {

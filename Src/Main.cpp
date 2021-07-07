@@ -28,7 +28,8 @@ float size = 6;
 Camera cam = Camera();
 
 Character character = Character(0);
-
+Wall wall = Wall(0);
+Light light = Light();
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -72,7 +73,7 @@ int main()
         return -1;
     }
     Shader lightShader("light.vs", "light.fs");
-    Light light = Light();
+   
 
 
     Shader planeShader("plane.vs", "plane.fs");
@@ -80,7 +81,7 @@ int main()
 
 
     Shader wallShader("plane.vs", "plane.fs");
-    Wall wall = Wall(size);
+    wall  = Wall(size);
 
 
     Shader charShader("plane.vs", "plane.fs");
@@ -115,10 +116,13 @@ int main()
         glm::mat4 view = cam.GetViewMatrix(character.position, character.front, character.up);
 
         
+        if (wall.isCol(character.position, 0.05, 0.05, 0.05)) {
+            std::cout << "col" << std::endl;
 
+        }
         // camera/view transformation
         
-        
+       
         plane.draw(planeShader,projection,view,light,cam);
         light.draw(lightShader, projection, view,cam);
         wall.draw(wallShader, projection, view, light, cam);
@@ -142,20 +146,21 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        character.move(FORWARD, deltaTime);
+        character.move(FORWARD, deltaTime,wall);
+
         cam.ProcessKeyboard(FORWARD, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        character.move(BACKWARD, deltaTime);
+        character.move(BACKWARD, deltaTime, wall);
         cam.ProcessKeyboard(BACKWARD, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        character.move(LEFT, deltaTime);
+        character.move(LEFT, deltaTime, wall);
         cam.ProcessKeyboard(LEFT, deltaTime);
     }
         
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        character.move(RIGHT, deltaTime);
+        character.move(RIGHT, deltaTime, wall);
         cam.ProcessKeyboard(RIGHT, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
@@ -169,7 +174,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
     {
+        
+        light.changeView();
         cam.changeView();
+        character.changeView(light.view);
     }
 }
 

@@ -18,15 +18,15 @@ public:
     Light() {
 
     };
-    int view = 0;
+    int view = 1;
     struct properties {
         glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
 
-        glm::vec3 ambient = glm::vec3(0.3f, 0.3f, 0.3f);
-        glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+        glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+        glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
         glm::vec3 specular = glm::vec3(0.3f, 0.3f, 0.3f);
-        float cutoff = 70.5f;
-        float outerCutoff = 90.0f;
+        float cutoff = 7.5f;
+        float outerCutoff = 10.0f;
     } property;
     unsigned int VAO, VBO;
 
@@ -112,14 +112,16 @@ public:
 
 
     }
-    void changeView(int view) {
+    void changeView() {
         if (view == 0) {
-
-
-
+            this->property.cutoff = 7.5f;
+            this->property.outerCutoff = 10.0f;
+            view = 1;
         }
         else {
-
+            view = 0;
+            this->property.cutoff = 20.0f;
+            this->property.outerCutoff = 25.0f;
         }
 
     }
