@@ -16,6 +16,7 @@
 #include "../Light.h"
 #include "../Compass.h"
 #include "../Character.h"
+#include "../SpotLight.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -79,7 +80,7 @@ int main()
 
     float size = 6;
     Shader planeShader("plane.vs", "plane.fs");
-    Plane plane = Plane(size);
+    Plane plane = Plane(2*size);
 
 
     Shader wallShader("plane.vs", "plane.fs");
@@ -92,6 +93,7 @@ int main()
     Shader compassShader("compass.vs", "compass.fs");
     Compass compass = Compass();
 
+    SpotLight spotLight = SpotLight();
     light.init(lightShader);
     plane.init(planeShader);
     character.init(charShader);
@@ -128,9 +130,9 @@ int main()
         // camera/view transformation
         
        
-        plane.draw(planeShader,projection,view,light,cam);
+        plane.draw(planeShader,projection,view,light,spotLight,cam);
         light.draw(lightShader, projection, view,cam);
-        wall.draw(wallShader, projection, view, light, cam);
+        wall.draw(wallShader, projection, view, light,spotLight, cam);
         character.draw(wallShader, projection, view, light, cam,deltaTime);
         compass.draw(compassShader,character.position,cam.Yaw);
 

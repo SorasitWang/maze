@@ -14,6 +14,7 @@
 #include "Light.h"
 #include "Cam.h"
 #include <vector>
+#include "SpotLight.h"
 class Wall {
 
 public :
@@ -177,7 +178,7 @@ public :
         glEnableVertexAttribArray(1);
 	}
 
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, Camera camera) {
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, SpotLight spotLight, Camera camera) {
         shader.use();
         shader.setMat4("model", glm::mat4(1.0f));
         shader.setMat4("projection", projection);
@@ -188,6 +189,15 @@ public :
         shader.setFloat("material.shininess", property.shininess);
 
         shader.setVec3("viewPos", camera.Position);
+
+        shader.setVec3("spotLight.position", spotLight.property.position);
+        shader.setVec3("spotLight.direction", spotLight.property.direction);
+        shader.setFloat("spotLight.cutOff", glm::cos(glm::radians(spotLight.property.cutoff)));
+        shader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(spotLight.property.outerCutoff)));
+        shader.setVec3("spotLight.ambient", spotLight.property.ambient);
+        shader.setVec3("spotLight.specular", spotLight.property.specular);
+        shader.setVec3("spotLight.diffuse", spotLight.property.diffuse);
+
 
          if (camera.view == 0) {
             shader.setVec3("light.position", camera.Position);

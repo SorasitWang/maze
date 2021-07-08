@@ -74,6 +74,9 @@
     <ClInclude Include="Compass.h">
       <Filter>Header Files\Compass</Filter>
     </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Header Files\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="plane.fs">

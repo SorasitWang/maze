@@ -26,13 +26,22 @@ in vec3 Normal;
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light;
+uniform Light spotLight;
 
+
+vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos);
 void main()
 {
+    vec3 result = calculate(light,Normal,viewPos,FragPos) + calculate(spotLight,Normal,viewPos,FragPos); 
+    
+    FragColor = vec4(result,1.0);
+} 
 
-    vec3 lightDir = normalize(light.position - FragPos);
-    float theta = dot(lightDir, normalize(-light.direction));
-    float epsilon = light.cutOff - light.outerCutOff;
+vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos){
+
+   vec3 lightDir = normalize(light.position - FragPos);
+   float theta = dot(lightDir, normalize(-light.direction));
+   float epsilon = light.cutOff - light.outerCutOff;
    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
     // ambient
    vec3 ambient =  material.diffuse * light.ambient;
@@ -52,5 +61,8 @@ void main()
     diffuse *= intensity;
     specular *= intensity;
     vec3 result = ambient+ diffuse + specular;
-    FragColor = vec4(result,1.0);
-} 
+
+    return result;
+
+
+}
