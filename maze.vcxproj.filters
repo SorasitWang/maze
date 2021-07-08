@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Character">
       <UniqueIdentifier>{d64aefc7-da4c-49bd-ac00-eef5033d4cfd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Compass">
+      <UniqueIdentifier>{4cfd0114-8c7d-47bd-861c-2ff468615b16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\glad.c">
@@ -68,6 +71,9 @@
     <ClInclude Include="Character.h">
       <Filter>Header Files\Character</Filter>
     </ClInclude>
+    <ClInclude Include="Compass.h">
+      <Filter>Header Files\Compass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="plane.fs">
@@ -88,5 +94,19 @@
     <None Include="Wall.vs">
       <Filter>Header Files\Wall</Filter>
     </None>
+    <None Include="compass.fs">
+      <Filter>Header Files\Compass</Filter>
+    </None>
+    <None Include="compass.vs">
+      <Filter>Header Files\Compass</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\TexturesCom_BrickOldDirty0125_1_M.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

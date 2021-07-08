@@ -14,7 +14,9 @@
 #include "../Cam.h"
 #include "../Wall.h"
 #include "../Light.h"
+#include "../Compass.h"
 #include "../Character.h"
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -23,7 +25,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-float size = 6;
+
 
 Camera cam = Camera();
 
@@ -75,7 +77,7 @@ int main()
     Shader lightShader("light.vs", "light.fs");
    
 
-
+    float size = 6;
     Shader planeShader("plane.vs", "plane.fs");
     Plane plane = Plane(size);
 
@@ -87,11 +89,14 @@ int main()
     Shader charShader("plane.vs", "plane.fs");
     character = Character(size);
 
+    Shader compassShader("compass.vs", "compass.fs");
+    Compass compass = Compass();
+
     light.init(lightShader);
     plane.init(planeShader);
     character.init(charShader);
     wall.init(wallShader);
-
+    compass.init(compassShader);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -127,6 +132,7 @@ int main()
         light.draw(lightShader, projection, view,cam);
         wall.draw(wallShader, projection, view, light, cam);
         character.draw(wallShader, projection, view, light, cam,deltaTime);
+        compass.draw(compassShader,character.position,cam.Yaw);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

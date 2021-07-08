@@ -53,7 +53,7 @@ public :
         border.push_back(std::vector<float> {0.0f * size / 10, -6.0f * size / 10, 8.0f * size / 10, -6.0f * size / 10});
         //inner wall
 	};
-    float size = 8, hight = 4, thin = 0.4;
+    float size = 8, hight = 2, thin = 0.4;
     std::vector<std::vector<float>>border;
     std::vector<std::vector<float>> innerWall;
     

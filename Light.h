@@ -22,11 +22,11 @@ public:
     struct properties {
         glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
 
-        glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+        glm::vec3 ambient = glm::vec3(0.1f, 0.1f, 0.1f);
         glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
         glm::vec3 specular = glm::vec3(0.3f, 0.3f, 0.3f);
-        float cutoff = 7.5f;
-        float outerCutoff = 10.0f;
+        float cutoff = 50.0f;
+        float outerCutoff = 70.5f;
     } property;
     unsigned int VAO, VBO;
 

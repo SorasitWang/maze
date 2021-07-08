@@ -150,7 +150,7 @@ private:
         // diffuse: texture_diffuseN
         // specular: texture_specularN
         // normal: texture_normalN
-
+        std::cout << "nn";
         // 1. diffuse maps
         vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -173,6 +173,7 @@ private:
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
     {
         vector<Texture> textures;
+        
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
@@ -181,8 +182,10 @@ private:
             bool skip = false;
             for (unsigned int j = 0; j < textures_loaded.size(); j++)
             {
+                
                 if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
                 {
+                    
                     textures.push_back(textures_loaded[j]);
                     skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
                     break;
@@ -207,7 +210,7 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
 {
     string filename = string(path);
     filename = directory + '/' + filename;
-
+   
     unsigned int textureID;
     glGenTextures(1, &textureID);
 
