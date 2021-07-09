@@ -80,7 +80,7 @@ int main()
 
     float size = 6;
     Shader planeShader("plane.vs", "plane.fs");
-    Plane plane = Plane(2*size);
+    Plane plane = Plane(size);
 
 
     Shader wallShader("plane.vs", "plane.fs");
@@ -97,8 +97,9 @@ int main()
     light.init(lightShader);
     plane.init(planeShader);
     character.init(charShader);
-    wall.init(wallShader);
     compass.init(compassShader);
+    wall.init(wallShader);
+    
 
     glEnable(GL_DEPTH_TEST);
 
@@ -132,9 +133,10 @@ int main()
        
         plane.draw(planeShader,projection,view,light,spotLight,cam);
         light.draw(lightShader, projection, view,cam);
-        wall.draw(wallShader, projection, view, light,spotLight, cam);
+        wall.draw(wallShader, projection, view, light, spotLight, cam);
         character.draw(wallShader, projection, view, light, cam,deltaTime);
         compass.draw(compassShader,character.position,cam.Yaw);
+        
 
         glfwSwapBuffers(window);
         glfwPollEvents();

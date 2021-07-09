@@ -21,21 +21,21 @@ public:
         this->size = s;
     };
     float size;
-    unsigned int VAO, VBO, EBO;
+    unsigned int VAO, VBO, EBO,texture;
     struct material {
         glm::vec3 diffuse = glm::vec3(0.7f,0.1f,0.0f);
         glm::vec3 specular = glm::vec3(0.5f, 0.5f, 0.5f);
-        float shininess = 32;
+        float shininess = 8;
     } property ;
 
 
     void init(Shader shader) {
         
         float vertices[] = {
-           size, -0.5f, size,     0.0f,1.0f,0.0f, // top right
-           size, -0.5f, -size,    0.0f,1.0f,0.0f, // bottom right
-          -size, -0.5f,-size,     0.0f,1.0f,0.0f, // bottom left
-          -size, -0.5f, size,     0.0f,1.0f,0.0f
+           size, -0.5f, size,     0.0f,1.0f,0.0f,    1,1,// top right
+           size, -0.5f, -size,    0.0f,1.0f,0.0f,   1,0,// bottom right
+          -size, -0.5f,-size,     0.0f,1.0f,0.0f,   0,0,// bottom left
+          -size, -0.5f, size,     0.0f,1.0f,0.0f,    0,1
         };
         /*float vertices[] = {
        -0.5f, -0.5f, 0.0f, // left  
@@ -46,7 +46,30 @@ public:
             0,1,3,
             1,2,3
         };
-       
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        // set the texture wrapping/filtering options (on currently bound texture)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // load and generate the texture
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load("C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg", &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
+                GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            std::cout << "Failed to load texture" << std::endl;
+        }
+
+        shader.use();
+        shader.setInt("material.diffuse", 0);
+
         glGenVertexArrays(1, &this->VAO);
         glGenBuffers(1, &this->VBO);
         glGenBuffers(1, &this->EBO);
@@ -62,13 +85,14 @@ public:
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
 
-        
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
 
      
     }
@@ -116,7 +140,7 @@ public:
         shader.setVec3("light.diffuse", light.property.diffuse);
 
         glBindVertexArray(this->VAO);
-
+        glBindTexture(GL_TEXTURE_2D, texture);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

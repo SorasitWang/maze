@@ -19,13 +19,13 @@ public:
     Compass() {
 
     };
-    unsigned int VAO, VBO, EBO;
+    unsigned int VAO, VBO, EBO,texture;
     Model ourModel = Model("C:\\Users\\LEGION\\source\\repos\\maze\\Res\\Arrow5.obj");
     glm::vec3 destination = glm::vec3(-5.3, 0,-5.7);
 
 
     void init(Shader shader) {
-        unsigned int texture;
+        
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         // set the texture wrapping/filtering options (on currently bound texture)
@@ -48,6 +48,7 @@ public:
         }
         shader.use();
         shader.setInt("texture_diffuse1", 0);
+        stbi_image_free(data);
     }
 
 
@@ -76,6 +77,7 @@ public:
         model = glm::rotate(model, (tmp)+PI-glm::radians(yaw+90) ,
             glm::vec3(0.0f, 0.0f, -1.0f));
         shader.setMat4("model", model);
+        glBindTexture(GL_TEXTURE_2D, texture);
         ourModel.Draw(shader);
     }
 };
