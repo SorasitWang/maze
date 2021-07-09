@@ -47,7 +47,7 @@ public:
     glm::vec3 right;
     glm::vec3 worldUp;
     // euler Angles
-    float yaw= -89.5f;
+    float yaw= -90.0f;
     float pitch = -0.1f;
 
     glm::vec3 startPos = glm::vec3(5.6, 0,5.6);
@@ -155,7 +155,8 @@ public:
     }
 
     void move(Camera_Movement direction, float deltatime,Wall wall) {
-        glm::vec3 tmpPos;
+        glm::vec3 tmpPos, tmpZ, tmpX;
+        bool x = false, z = false;
         float velocity = movement.speed * deltatime;
 
         if (direction == FORWARD) {
@@ -170,11 +171,30 @@ public:
         if (direction == BACKWARD) {
             tmpPos = glm::vec3(-1, -1, -1) *glm::vec3(front.x, 0, front.z) * velocity;
         }
+        /*tmpX = glm::vec3(tmpPos.x*glm::sin(glm::radians(yaw - 90.0f)), 0, 0);
+        tmpZ = glm::vec3(0, 0, tmpPos.z* glm::cos(glm::radians(yaw - 90.0f)));
 
-
-        if (wall.isCol(position+tmpPos, 0.05, 0.05, 0.05) == false) {
+        if (!wall.isCol(position + glm::vec3(1.1)*tmpX, 0.05, 0.05, 0.05))
+            x = true;
+        if (!wall.isCol(position + glm::vec3(1.1) *tmpZ, 0.05, 0.05, 0.05))
+            z = true;
+        std::cout << x << " " << z << std::endl;
+        std::cout << tmpX.x << " " << tmpZ.z << " " << glm::sin(glm::radians(yaw - 90.0f)) << " " << glm::cos(glm::radians(yaw - 90.0f)) <<std::endl;
+        if (x && z) {
             position += tmpPos;
-            
+        }
+        else if (x) {
+            position += tmpX;
+        }
+        else if (z) {
+            position += tmpZ;
+        }*/
+      
+        if(wall.isCol(position + glm::vec3(tmpPos.x,0,0), 0.05, 0.05, 0.05) == false) {
+            position += glm::vec3(tmpPos.x, 0, 0);
+        }
+        if (wall.isCol(position + glm::vec3(0, 0, tmpPos.z), 0.05, 0.05, 0.05) == false) {
+            position += glm::vec3(0, 0, tmpPos.z);
         }
     }
 
@@ -185,7 +205,7 @@ public:
             //movement.jump = false;
             if (movement.jumpAcc < 0) { //falling down
                 movement.jump = false;
-                position = startPos;
+                position.y = startPos.y;
             }
             else {
                 movement.jumpTime = movement.jumpTimeMax;

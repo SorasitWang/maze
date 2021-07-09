@@ -17,7 +17,7 @@
 #include "../Compass.h"
 #include "../Character.h"
 #include "../SpotLight.h"
-
+#include "../Rock.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -94,12 +94,16 @@ int main()
     Compass compass = Compass();
 
     SpotLight spotLight = SpotLight();
+
+    Shader rockShader("rock.vs", "rock.fs");
+    Rock rock = Rock(size);
+
     light.init(lightShader);
     plane.init(planeShader);
     character.init(charShader);
     compass.init(compassShader);
     wall.init(wallShader);
-    
+    rock.init(rockShader);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -124,10 +128,7 @@ int main()
         glm::mat4 view = cam.GetViewMatrix(character.position, character.front, character.up);
 
         
-        if (wall.isCol(character.position, 0.05, 0.05, 0.05)) {
-            std::cout << "col" << std::endl;
-
-        }
+     
         // camera/view transformation
         
        
@@ -136,7 +137,7 @@ int main()
         wall.draw(wallShader, projection, view, light, spotLight, cam);
         character.draw(wallShader, projection, view, light, cam,deltaTime);
         compass.draw(compassShader,character.position,cam.Yaw);
-        
+        rock.draw(wallShader, projection, view, light, spotLight, cam);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

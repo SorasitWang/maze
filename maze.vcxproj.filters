@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Compass">
       <UniqueIdentifier>{4cfd0114-8c7d-47bd-861c-2ff468615b16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rock">
+      <UniqueIdentifier>{a49bbd08-f09c-4d5e-848b-e8ea8cf29f8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\glad.c">
@@ -77,6 +80,9 @@
     <ClInclude Include="SpotLight.h">
       <Filter>Header Files\Light</Filter>
     </ClInclude>
+    <ClInclude Include="Rock.h">
+      <Filter>Header Files\Rock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="plane.fs">
@@ -102,6 +108,12 @@
     </None>
     <None Include="compass.vs">
       <Filter>Header Files\Compass</Filter>
+    </None>
+    <None Include="rock.fs">
+      <Filter>Header Files\Rock</Filter>
+    </None>
+    <None Include="rock.vs">
+      <Filter>Header Files\Rock</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
