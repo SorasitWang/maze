@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Score">
       <UniqueIdentifier>{96fe2afd-811a-4d23-9993-2e29df33ead5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Star">
+      <UniqueIdentifier>{ba6dd493-f02d-4a74-b045-18344809edbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\glad.c">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>Header Files\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Header Files\Star</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

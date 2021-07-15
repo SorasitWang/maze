@@ -19,6 +19,7 @@
 #include "../Rock.h"
 #include "../Skybox.h"
 #include "../Score.h"
+#include "../Star.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -38,7 +39,7 @@ Light light = Light();
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
-
+int winScore = 5;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -100,8 +101,9 @@ int main()
     SkyBox skybox = SkyBox();
 
     Shader scoreShader("score.vs", "score.fs");
-    Score score = Score();
+    Score score = Score(winScore);
 
+    Star star = Star(winScore,size);
 
     light.init(lightShader);
     plane.init(planeShader);
@@ -111,6 +113,7 @@ int main()
     rock.init(rockShader);
     skybox.init(skyboxShader);
     score.init(scoreShader);
+    star.init(rockShader,wall);
         
 
     glEnable(GL_DEPTH_TEST);
@@ -149,12 +152,14 @@ int main()
         score.draw(scoreShader, projection, view);
         rock.draw(wallShader, projection, view, light, spotLight, cam);
         wall.draw(wallShader, projection, view, light, spotLight, cam);
-        
-        if (false) {//collect star
+        if (star.draw(wallShader, projection, view, light, spotLight, cam, character) == true) {
             score.update();
+
             if (score.win()) {
+                std::cout << "win" << std::endl;
                 spotLight.on();
-            }
+            
+         }
         }
         // draw skybox as last
           // change depth function so depth test passes when values are equal to depth buffer's content

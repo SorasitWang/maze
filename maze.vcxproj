@@ -164,6 +164,7 @@
     <ClInclude Include="Score.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="Star.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

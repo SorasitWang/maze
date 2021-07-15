@@ -20,7 +20,7 @@ public:
         this->max = max;
     };
     Score() {};
-    int score = 3;
+    int score = 0;
     int max = 5;
     unsigned int VAO, VBO ,EBO, texture;
 
@@ -99,7 +99,7 @@ public:
 
     void draw(Shader shader,glm::mat4 projection,glm::mat4 view) {
         shader.use();
-
+        //std::cout << score << std::endl;
         for (int i = 0; i <max; i++) {
             if (i >= score) {
                 shader.setInt("show", 0);
