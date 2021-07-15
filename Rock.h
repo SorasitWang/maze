@@ -115,7 +115,7 @@ public:
         //glDrawArrays(GL_TRIANGLES, 0, 3);
         for (int i = 0; i < this->count; i++) {
             glm::mat4 model = glm::mat4(1.0f);
-            std::cout << i << std::endl;
+            //std::cout << i << std::endl;
             model = glm::translate(model, positions[i]);
             
             float angle = 10.0f * i;

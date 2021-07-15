@@ -222,7 +222,7 @@ public:
         float _veclocity = movement.jumpAcc * movement.jumpTime;
         float velocity = _veclocity * deltatime;
         position += glm::vec3(0,1,0) * velocity;
-        std::cout << movement.jumpTime << " - " << movement.jumpTimeMax << " - " << movement.jumpAcc << std::endl;
+        //std::cout << movement.jumpTime << " - " << movement.jumpTimeMax << " - " << movement.jumpAcc << std::endl;
 
     }
 

@@ -5,7 +5,6 @@
 #include <glm/glm/gtc/type_ptr.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <iostream>
 #include "../shader_m.h"
 #include "../stb_image.h"
 #include "../camera.h"
@@ -18,6 +17,8 @@
 #include "../Character.h"
 #include "../SpotLight.h"
 #include "../Rock.h"
+#include "../Skybox.h"
+#include "../Score.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -77,15 +78,12 @@ int main()
     }
     Shader lightShader("light.vs", "light.fs");
    
-
     float size = 6;
     Shader planeShader("plane.vs", "plane.fs");
     Plane plane = Plane(size);
 
-
     Shader wallShader("plane.vs", "plane.fs");
     wall  = Wall(size);
-
 
     Shader charShader("plane.vs", "plane.fs");
     character = Character(size);
@@ -98,12 +96,22 @@ int main()
     Shader rockShader("rock.vs", "rock.fs");
     Rock rock = Rock(size);
 
+    Shader skyboxShader("skybox.vs", "skybox.fs");
+    SkyBox skybox = SkyBox();
+
+    Shader scoreShader("score.vs", "score.fs");
+    Score score = Score();
+
+
     light.init(lightShader);
     plane.init(planeShader);
     character.init(charShader);
     compass.init(compassShader);
     wall.init(wallShader);
     rock.init(rockShader);
+    skybox.init(skyboxShader);
+    score.init(scoreShader);
+        
 
     glEnable(GL_DEPTH_TEST);
 
@@ -130,14 +138,31 @@ int main()
         
      
         // camera/view transformation
+        glDepthMask(GL_FALSE);
+        skybox.draw(skyboxShader, cam, character, projection);
+        glDepthMask(GL_TRUE);
         
-       
         plane.draw(planeShader,projection,view,light,spotLight,cam);
         light.draw(lightShader, projection, view,cam);
-        wall.draw(wallShader, projection, view, light, spotLight, cam);
         character.draw(wallShader, projection, view, light, cam,deltaTime);
         compass.draw(compassShader,character.position,cam.Yaw);
+        score.draw(scoreShader, projection, view);
         rock.draw(wallShader, projection, view, light, spotLight, cam);
+        wall.draw(wallShader, projection, view, light, spotLight, cam);
+        
+        if (false) {//collect star
+            score.update();
+            if (score.win()) {
+                spotLight.on();
+            }
+        }
+        // draw skybox as last
+          // change depth function so depth test passes when values are equal to depth buffer's content
+        //glDepthFunc(GL_LEQUAL);
+       
+        //glDepthFunc(GL_LESS); // set depth function back to default
+
+       
 
         glfwSwapBuffers(window);
         glfwPollEvents();
