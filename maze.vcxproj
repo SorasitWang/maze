@@ -147,21 +147,19 @@
   <ItemGroup>
     <ClCompile Include="Src\glad.c" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cam.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="Camera1.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Compass.h" />
-    <ClInclude Include="Header\Plane\shader_m.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="shader_m.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Star.h" />
@@ -171,8 +169,6 @@
   <ItemGroup>
     <None Include="compass.fs" />
     <None Include="compass.vs" />
-    <None Include="cubemap.fs" />
-    <None Include="cubemap.vs" />
     <None Include="light.fs" />
     <None Include="light.vs" />
     <None Include="plane.fs" />

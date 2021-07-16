@@ -141,9 +141,7 @@ int main()
         
      
         // camera/view transformation
-        glDepthMask(GL_FALSE);
-        skybox.draw(skyboxShader, cam, character, projection);
-        glDepthMask(GL_TRUE);
+       
         
         plane.draw(planeShader,projection,view,light,spotLight,cam);
         light.draw(lightShader, projection, view,cam);
@@ -163,9 +161,9 @@ int main()
         }
         // draw skybox as last
           // change depth function so depth test passes when values are equal to depth buffer's content
-        //glDepthFunc(GL_LEQUAL);
-       
-        //glDepthFunc(GL_LESS); // set depth function back to default
+        glDepthFunc(GL_LEQUAL);
+        skybox.draw(skyboxShader, cam, character, projection);
+        glDepthFunc(GL_LESS); // set depth function back to default
 
        
 

@@ -51,16 +51,10 @@
     <ClCompile Include="Src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Plane</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Plane\shader_m.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Header Files</Filter>
@@ -98,14 +92,14 @@
     <ClInclude Include="Skybox.h">
       <Filter>Header Files\Skybox</Filter>
     </ClInclude>
-    <ClInclude Include="Camera1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>Header Files\Score</Filter>
     </ClInclude>
     <ClInclude Include="Star.h">
       <Filter>Header Files\Star</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_m.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -144,12 +138,6 @@
     </None>
     <None Include="skybox.fs">
       <Filter>Header Files\Skybox</Filter>
-    </None>
-    <None Include="cubemap.fs">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="cubemap.vs">
-      <Filter>Header Files</Filter>
     </None>
     <None Include="score.vs">
       <Filter>Header Files\Score</Filter>

@@ -73,12 +73,12 @@ public:
       
         std::vector<std::string> faces
         {
-             "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg",
-        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg",
-        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg",
-        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg",
-        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg",
-        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg"
+         "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\right.jpg",
+        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\left.jpg",
+        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\top.jpg",
+        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\bottom.jpg",
+        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\front.jpg",
+        "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\back.jpg"
             /*"C:\\Users\\LEGION\\source\\repos\\maze\\Res\\right.png",
             "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\left.png",
             "C:\\Users\\LEGION\\source\\repos\\maze\\Res\\front.png",
@@ -90,7 +90,7 @@ public:
         cubemapTexture = loadCubemap(faces);
 
         //unsigned int textureID;
-        glGenTextures(1, &cubemapTexture);
+        /*glGenTextures(1, &cubemapTexture);
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
         int width, height, nrChannels;
@@ -114,7 +114,7 @@ public:
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
+        */
 
         //std::cout << cubemapTexture;
         //cubemapTexture = loadTexture("C:\\Users\\LEGION\\source\\repos\\maze\\Res\\planeDark1.jpg");
