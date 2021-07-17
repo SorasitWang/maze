@@ -250,16 +250,17 @@ public :
     // x y z is in the center , sizeX Y Z is half of actually SIZE
     bool isCol(glm::vec3 position,float sizeX, float sizeY,float sizeZ) {
         float x,y,z,base=-0.5f;
+        float offset = 0.07;
         x = position.x;  y = position.y; z = position.z;
       
-        if ( (y + sizeY < base) || (y - sizeY > base + hight)) return false;
+        if ( (y + sizeY < base) || (y - sizeY > base + hight+1)) return false;
         
         bool tmp = false;
         for (int i = 0; i < border.size(); i++) {
             //check wall along z
             if (border[i][0] == border[i][2]) {
                 //check x
-                if ((abs(x + sizeX - border[i][0]) < thin/2) || (abs(x - sizeX - border[i][0]) < thin/2)) {
+                if ((abs(x + sizeX - border[i][0]) < thin/2+ offset) || (abs(x - sizeX - border[i][0]) < thin/2+ offset)) {
                     //check z
                     //std::cout << z << " " << sizeZ << " " << border[i][1] << " " << border[i][3] << " " << thin << std::endl;
                     if ( (z - sizeZ > std::max(border[i][1], border[i][3])) || (z + sizeZ < std::min(border[i][1], border[i][3]) ) ){
@@ -273,7 +274,7 @@ public :
             //check wall along x
             else {
                 //check z
-                if ((abs(z + sizeZ - border[i][1]) < thin/2) || (abs(z - sizeZ - border[i][1]) < thin/2)) {
+                if ((abs(z + sizeZ - border[i][1]) < thin/2 + offset) || (abs(z - sizeZ - border[i][1]) < thin/2 + offset)) {
                     //check x
                     if ((x - sizeX > std::max(border[i][0], border[i][2])) || (x + sizeX < std::min(border[i][0], border[i][2]))) {
                     }

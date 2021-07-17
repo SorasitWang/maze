@@ -36,7 +36,7 @@ public:
         float jumpAcc = 5;
         float jumpTimeMax = 1;
         float jumpTime = 0;
-        float jumpHight = 1.0;
+        float jumpHight = 0.5;
         float tureRate = 0;
         float sensitivity = 0.1f;
     } movement;
