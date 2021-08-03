@@ -10,7 +10,7 @@
 #include "../camera.h"
 #include <iostream>
 #include "../plane.h"
-#include "../Cam.h"
+#include "../Model.h"
 #include "../Wall.h"
 #include "../Light.h"
 #include "../Compass.h"
@@ -20,6 +20,8 @@
 #include "../Skybox.h"
 #include "../Score.h"
 #include "../Star.h"
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -118,8 +120,6 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-   
-
     while (!glfwWindowShouldClose(window))
     {   
         float currentFrame = glfwGetTime();
@@ -148,7 +148,7 @@ int main()
         character.draw(wallShader, projection, view, light, cam,deltaTime);
         compass.draw(compassShader,character.position,cam.Yaw);
         score.draw(scoreShader, projection, view);
-        rock.draw(wallShader, projection, view, light, spotLight, cam);
+        rock.draw(rockShader, projection, view, light, spotLight, cam);
         wall.draw(wallShader, projection, view, light, spotLight, cam);
         if (star.draw(wallShader, projection, view, light, spotLight, cam, character) == true) {
             score.update();
@@ -159,8 +159,8 @@ int main()
             
          }
         }
-        // draw skybox as last
-          // change depth function so depth test passes when values are equal to depth buffer's content
+        
+        
         glDepthFunc(GL_LEQUAL);
         skybox.draw(skyboxShader, cam, character, projection);
         glDepthFunc(GL_LESS); // set depth function back to default

@@ -26,26 +26,79 @@ public:
     Rock(float area) {
         this->area = area;
     };
-    unsigned int VAO, VBO, EBO, texture;
+    unsigned int VAO, VBO, EBO, texture , buffer;
     Model ourModel = Model("C:\\Users\\LEGION\\source\\repos\\maze\\Res\\rock.obj");
     std::vector<glm::vec3> positions;
     std::vector<float> sizes;
     int count = 100;
     float shininess = 8;
     float mul = 2,area,base=-0.5f;
+    glm::mat4 *modelMatrices;
 
     void init(Shader shader) {
 
-        //gen positions
-        float randX , randZ , randS;
-        for (int i = 0; i < count; i++) {
-            randX = ((float)std::rand() / RAND_MAX-0.5)* mul ;
-            randZ = ((float)std::rand() / RAND_MAX - 0.5) * mul;
-            randS = ((float)std::rand() / RAND_MAX) *2;
-            positions.push_back(glm::vec3(randX*area, base , randZ*area));
-            sizes.push_back(1);
+        modelMatrices = new glm::mat4[count];
+        srand(glfwGetTime()); // initialize random seed
+        float radius = 150.0;
+        float offset = 25.0f;
+        float randX, randZ, randS, mul = 2, base = -0.5;
+        for (unsigned int i = 0; i < count; i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            // 1. translation: displace along circle with 'radius' in range [-offset, offset]
+
+           // model = glm::translate(model, glm::vec3(x, y, z));
+            randX = ((float)std::rand() / RAND_MAX - 0.5) * 6 *mul;
+            randZ = ((float)std::rand() / RAND_MAX - 0.5) * 6* mul;
+            randS = ((float)std::rand() / RAND_MAX) * 2;
+
+            model = glm::translate(model, glm::vec3(randX, base, randZ));
+            // 2. scale: Scale between 0.05 and 0.25f
+            float scale = 0.0002;
+            model = glm::scale(model, glm::vec3(scale));
+
+            // 3. rotation: add random rotation around a (semi)randomly picked rotation axis vector
+            float rotAngle = (rand() % 360);
+            model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+            // 4. now add to list of matrices
+            modelMatrices[i] = model;
         }
 
+        // configure instanced array
+        // -------------------------
+        unsigned int buffer;
+        glGenBuffers(1, &buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        glBufferData(GL_ARRAY_BUFFER, count * sizeof(glm::mat4), &modelMatrices[0], GL_STATIC_DRAW);
+
+        // set transformation matrices as an instance vertex attribute (with divisor 1)
+        // note: we're cheating a little by taking the, now publicly declared, VAO of the model's mesh(es) and adding new vertexAttribPointers
+        // normally you'd want to do this in a more organized fashion, but for learning purposes this will do.
+        // -----------------------------------------------------------------------------------------------------------------------------------
+        for (unsigned int i = 0; i < ourModel.meshes.size(); i++)
+        {
+            unsigned int mVAO = ourModel.meshes[i].VAO;
+            glBindVertexArray(mVAO);
+            // set attribute pointers for matrix (4 times vec4)
+            glEnableVertexAttribArray(3);
+            glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+            glEnableVertexAttribArray(4);
+            glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+            glEnableVertexAttribArray(5);
+            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+            glEnableVertexAttribArray(6);
+            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+            glVertexAttribDivisor(3, 1);
+            glVertexAttribDivisor(4, 1);
+            glVertexAttribDivisor(5, 1);
+            glVertexAttribDivisor(6, 1);
+
+            glBindVertexArray(0);
+
+        }
+        
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         // set the texture wrapping/filtering options (on currently bound texture)
@@ -68,7 +121,6 @@ public:
         }
         shader.use();
         shader.setInt("texture_diffuse", 0);
-        stbi_image_free(data);
     }
 
 
@@ -109,21 +161,16 @@ public:
         shader.setVec3("light.ambient", light.property.ambient);
         shader.setVec3("light.specular", light.property.specular);
         shader.setVec3("light.diffuse", light.property.diffuse);
-
-        glBindVertexArray(this->VAO);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
-        for (int i = 0; i < this->count; i++) {
-            glm::mat4 model = glm::mat4(1.0f);
-            //std::cout << i << std::endl;
-            model = glm::translate(model, positions[i]);
-            
-            float angle = 10.0f * i;
-            model = glm::rotate(model, glm::radians(angle),glm::vec3(1.0f, 0.3f, 0.5f));
-            model = glm::scale(model,glm::vec3(0.0002,0.0002,0.0002));
-            shader.setMat4("model", model);
-            ourModel.Draw(shader);
+     
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture); // note: we also made the textures_loaded vector public (instead of private) from the model class.
+        for (unsigned int i = 0; i < ourModel.meshes.size(); i++)
+        {
+            glBindVertexArray(ourModel.meshes[i].VAO);
+            glDrawElementsInstanced(GL_TRIANGLES, ourModel.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, count);
+            glBindVertexArray(0);
         }
+
 
         glBindVertexArray(0);
     }

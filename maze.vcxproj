@@ -145,8 +145,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cam1.h" />
     <ClCompile Include="Src\glad.c" />
     <ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cam.h" />
@@ -167,6 +169,8 @@
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="as.fs" />
+    <None Include="as.vs" />
     <None Include="compass.fs" />
     <None Include="compass.vs" />
     <None Include="light.fs" />

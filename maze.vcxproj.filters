@@ -51,6 +51,12 @@
     <ClCompile Include="Src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cam1.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plane.h">
@@ -144,6 +150,12 @@
     </None>
     <None Include="score.fs">
       <Filter>Header Files\Score</Filter>
+    </None>
+    <None Include="as.fs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="as.vs">
+      <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
