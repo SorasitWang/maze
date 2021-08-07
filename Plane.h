@@ -115,16 +115,18 @@ public:
     }
 
     //void draw(Camera camera, glm::vec3 lightPos) {
-    void draw(Shader shader,glm::mat4 projection , glm::mat4 view,Light light,SpotLight spotLight,Camera camera){
-        shader.use();
+    void draw(Shader &shader,glm::mat4 projection , glm::mat4 view,Light light,SpotLight spotLight,Camera cam,glm::mat4 lightSpaceMatrix){
+        /*shader.use();
         shader.setMat4("model", glm::mat4(1.0f));
         shader.setMat4("projection", projection);
         shader.setMat4("view",view);
-
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
         shader.setVec3("material.diffuse", property.diffuse);
         shader.setVec3("material.specular", property.specular);
         shader.setFloat("material.shininess", property.shininess);
 
+        shader.setVec3("lightPos", camera.Position);
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
         shader.setVec3("viewPos", camera.Position);
 
         shader.setVec3("spotLight.position", spotLight.property.position);
@@ -149,9 +151,65 @@ public:
         }
         shader.setVec3("light.specular", light.property.specular);
         shader.setVec3("light.diffuse", light.property.diffuse);
+        */
+        struct properties {
+            glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
 
+            glm::vec3 ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+            glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
+            glm::vec3 specular = glm::vec3(0.3f, 0.3f, 0.3f);
+            float cutoff = 15.0f;
+            float outerCutoff = 20.0f;
+        } property;
+
+
+        struct material {
+            glm::vec3 diffuse = glm::vec3(0.1f, 0.4f, 0.6f);
+            glm::vec3 specular = glm::vec3(0.7f, 0.7f, 0.7f);
+            float shininess = 32;
+        } wproperty;
+        shader.use();
+        shader.setMat4("projection", projection);
+        shader.setMat4("view", view);
+        // set light uniforms
+        shader.setVec3("viewPos", cam.Position);
+        shader.setVec3("lightPos", cam.Position);
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+        // initialize (if necessary)
+        glm::mat4 model = glm::mat4(1.0f);
+        /*model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+        model = glm::scale(model, glm::vec3(0.5f));*/
+        shader.setMat4("model", model);
+
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+        // shader.setMat4("model", glm::mat4(1.0f));
+        // shader.setMat4("projection", projection);
+         //shader.setMat4("view", view);
+
+         //shader.setVec3("material.diffuse", property.diffuse);
+        shader.setVec3("material.specular", wproperty.specular);
+        shader.setFloat("material.shininess", wproperty.shininess);
+
+        shader.setVec3("viewPos", cam.Position);
+
+        if (cam.view == 0) {
+            shader.setVec3("light.position", cam.Position);
+            shader.setVec3("light.direction", cam.Front);
+        }
+        else {
+            shader.setVec3("light.position", cam.Position);
+            shader.setVec3("light.direction", glm::vec3(0.0f, -1.0f, 0.0f));
+        }
+
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(property.cutoff)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(property.outerCutoff)));
+
+        shader.setVec3("light.ambient", property.ambient);
+        shader.setVec3("light.specular", property.specular);
+        shader.setVec3("light.diffuse", property.diffuse);
         glBindVertexArray(this->VAO);
-        glBindTexture(GL_TEXTURE_2D, texture);
+       // glBindTexture(GL_TEXTURE_2D, texture);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

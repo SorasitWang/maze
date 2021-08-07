@@ -151,6 +151,7 @@
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Cam.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="Character.h" />
@@ -181,6 +182,8 @@
     <None Include="rock.vs" />
     <None Include="score.fs" />
     <None Include="score.vs" />
+    <None Include="shadow.fs" />
+    <None Include="shadow.vs" />
     <None Include="skybox.fs" />
     <None Include="skybox.vs" />
     <None Include="Wall.fs" />

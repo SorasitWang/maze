@@ -28,7 +28,7 @@ public:
         float cutoff = 50.0f;
         float outerCutoff = 70.5f;
     } property;
-    unsigned int VAO, VBO;
+    unsigned int VAO, VBO , depthFBO;
 
     void init(Shader shader) {
         
@@ -92,6 +92,11 @@ public:
         // note that we update the lamp's position attribute's stride to reflect the updated buffer data
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
+    
+       
+    
+
+
     }
 
     void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Camera camera) {

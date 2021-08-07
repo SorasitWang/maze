@@ -107,6 +107,9 @@
     <ClInclude Include="shader_m.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="plane.fs">
@@ -155,6 +158,12 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="as.vs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="shadow.vs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="shadow.fs">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

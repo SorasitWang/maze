@@ -19,10 +19,10 @@
 class Rock {
 
 public:
-    Rock(float area,float y) {
+    /*Rock(float area,float y) {
         this->area = area;
         this->base = y;
-    };
+    };*/
     Rock(float area) {
         this->area = area;
     };
@@ -126,7 +126,8 @@ public:
 
 
     //void draw(Camera camera, glm::vec3 lightPos) {
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, SpotLight spotLight, Camera camera) {
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, SpotLight spotLight
+            , Camera camera, glm::mat4 lightSpaceMatrix){
         shader.use();
 
         
@@ -137,7 +138,7 @@ public:
         shader.setFloat("material.shininess", shininess);
 
         shader.setVec3("viewPos", camera.Position);
-
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
         shader.setVec3("spotLight.position", spotLight.property.position);
         shader.setVec3("spotLight.direction", spotLight.property.direction);
         shader.setFloat("spotLight.cutOff", glm::cos(glm::radians(spotLight.property.cutoff)));

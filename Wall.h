@@ -26,7 +26,7 @@ public :
         border.push_back(std::vector<float> {-size, -size, size, -size });      //               ----------      z = -1
         border.push_back(std::vector<float> {size, -size, size, size });//                                   |   x = 1
 
-        border.push_back(std::vector<float> {8.0f * size / 10, 4.0f * size / 10, 8.0f * size / 10, 10.0f * size / 10});
+        border.push_back(std::vector<float> {8.0f * size / 10, 10.0f * size / 10, 8.0f * size / 10, 4.0f * size / 10});
         border.push_back(std::vector<float> {8.0f * size / 10, 2.0f * size / 10, 8.0f * size / 10, -8.0f * size / 10});
 
         border.push_back(std::vector<float> {6.0f * size / 10, 10.0f * size / 10, 6.0f * size / 10, 6.0f * size / 10});
@@ -49,7 +49,7 @@ public :
         border.push_back(std::vector<float> {-8.0f * size / 10, -10.0f * size / 10, -8.0f * size / 10, 8.0f * size / 10});
 
         border.push_back(std::vector<float> {0.0f * size / 10, -8.0f * size / 10, 6.0f * size / 10, -8.0f * size / 10});
-        border.push_back(std::vector<float> {-4.0f * size / 10, -8.0f * size / 10, -8.0f * size / 10, -8.0f * size / 10});
+        border.push_back(std::vector<float> {-8.0f * size / 10, -8.0f * size / 10, -4.0f * size / 10, -8.0f * size / 10});
 
         border.push_back(std::vector<float> {0.0f * size / 10, -6.0f * size / 10, 8.0f * size / 10, -6.0f * size / 10});
         //inner wall
@@ -66,7 +66,7 @@ public :
     } property;
     int idx = 0, idx2 = 0, piece = 0;
 
-	void init(Shader shader) {
+	unsigned int init(Shader shader) {
         int size;
         float base = -0.5f;
         float vertices[5*8*4*20];// = new float[2*3*4*mapping.size()];
@@ -201,11 +201,96 @@ public :
         //coord
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
+
+        return VAO;
 	}
 
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, SpotLight spotLight, Camera camera) {
-        shader.use();
 
+    void draw(unsigned int tmpVAO,Shader &shader, glm::vec3 lightPos, glm::mat4 lightSpaceMatrix, glm::mat4 projection, glm::mat4 view, Camera cam)
+    {
+        struct properties {
+            glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
+
+            glm::vec3 ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+            glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
+            glm::vec3 specular = glm::vec3(0.3f, 0.3f, 0.3f);
+            float cutoff = 15.0f;
+            float outerCutoff = 20.0f;
+        } property;
+
+
+        struct material {
+            glm::vec3 diffuse = glm::vec3(0.1f, 0.4f, 0.6f);
+            glm::vec3 specular = glm::vec3(0.7f, 0.7f, 0.7f);
+            float shininess = 32;
+        } wproperty;
+        shader.use();
+        shader.setMat4("projection", projection);
+        shader.setMat4("view", view);
+        // set light uniforms
+        shader.setVec3("viewPos", cam.Position);
+        shader.setVec3("lightPos", lightPos);
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+        // initialize (if necessary)
+        glm::mat4 model = glm::mat4(1.0f);
+        /*model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+        model = glm::scale(model, glm::vec3(0.5f));*/
+        shader.setMat4("model", model);
+       
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+       // shader.setMat4("model", glm::mat4(1.0f));
+       // shader.setMat4("projection", projection);
+        //shader.setMat4("view", view);
+
+        //shader.setVec3("material.diffuse", property.diffuse);
+        shader.setVec3("material.specular", wproperty.specular);
+        shader.setFloat("material.shininess", wproperty.shininess);
+
+        shader.setVec3("viewPos", cam.Position);
+
+        if (cam.view == 0) {
+            shader.setVec3("light.position", cam.Position);
+            shader.setVec3("light.direction", cam.Front);
+        }
+        else {
+            shader.setVec3("light.position", cam.Position);
+            shader.setVec3("light.direction", glm::vec3(0.0f, -1.0f, 0.0f));
+        }
+
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(property.cutoff)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(property.outerCutoff)));
+
+        shader.setVec3("light.ambient", property.ambient);
+        shader.setVec3("light.specular", property.specular);
+        shader.setVec3("light.diffuse", property.diffuse);
+        // render Cube
+        glBindVertexArray(tmpVAO);
+        glDrawElements(GL_TRIANGLES, 30 * 20, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    }
+
+    void draw(unsigned int tmpVAO, Shader shader) {
+        // initialize (if necessary)
+        glm::mat4 model = glm::mat4(1.0f);
+       
+
+        /*model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+        model = glm::scale(model, glm::vec3(0.5f));*/
+        shader.use();
+        shader.setMat4("model", model);
+      
+        // render Cube
+        glBindVertexArray(tmpVAO);
+        glDrawElements(GL_TRIANGLES, 30 * 20, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    }
+
+    /*
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, SpotLight spotLight
+                , Camera camera, glm::mat4 lightSpaceMatrix) {
+        shader.use();
+        shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
         shader.setMat4("model", glm::mat4(1.0f));
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
@@ -247,7 +332,7 @@ public :
 
         glBindVertexArray(0);
     }
-    // x y z is in the center , sizeX Y Z is half of actually SIZE
+    // x y z is in the center , sizeX Y Z is half of actually SIZE*/
     bool isCol(glm::vec3 position,float sizeX, float sizeY,float sizeZ) {
         float x,y,z,base=-0.5f;
         float offset = 0.07;
@@ -266,7 +351,7 @@ public :
                     if ( (z - sizeZ > std::max(border[i][1], border[i][3])) || (z + sizeZ < std::min(border[i][1], border[i][3]) ) ){
                     }
                     else {
-                        //std::cout << "x" << std::endl;
+                        std::cout << "x" << std::endl;
                         return true;
                     }
                 }
@@ -287,7 +372,6 @@ public :
         }
         return false;
     }
-
-
+    
 
 };
