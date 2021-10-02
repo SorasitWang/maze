@@ -2,7 +2,7 @@
 
 Collect all stars and find the goal!
 
-Features :
+## Features :
   - Basic character movement and handle when collide with walls
   - Show the 2D direction to goal position by using compass 
   - Collect object when walk through
@@ -12,7 +12,7 @@ Features :
   - Using instancing to create lost of rocks (100)
   - Create shadow 
   
-How to play :
+## How to play :
   - W A S D : move forward left backward and right
   - MOUSE : rotate camera along x y axis (only in 1st person view)
   - SPACE : jump 
@@ -21,4 +21,9 @@ How to play :
   You have to find the goal of this maze and also collect all stars for open it. when you collect then all, the spotlight will be on at the goal position.
   You can jumping to see the surroundings and use compass to navigate the way to goal.  
   
+## Preview
   
+
+https://user-images.githubusercontent.com/60053627/135713069-9fd8d0ff-7fa7-46ce-ab8f-7bcdab55a5cc.mp4
+
+
