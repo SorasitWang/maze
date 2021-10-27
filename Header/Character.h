@@ -8,9 +8,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <iostream>
 #include "shader_m.h"
-#include "Cam.h"
 #include <map>
-#include "Light.h"
+#include "../header/Light/Light.h"
 #include <string>
 
 class Character {
@@ -23,13 +22,8 @@ public:
     }
     float idx = 4;
     unsigned int VAO, VBO;
-
-    struct material {
-        glm::vec3 diffuse = glm::vec3(0.1f, 0.7f, 0.3f);
-        glm::vec3 specular = glm::vec3(0.5f, 0.5f, 0.5f);
-        float shininess = 32;
-    } property;
-
+    Material property = Material();
+   
     struct movement {
         bool jump = false;
         float speed = 2.5;
@@ -53,6 +47,10 @@ public:
     glm::vec3 startPos = glm::vec3(5.6, 0,5.6);
 
     void init(Shader shader) {
+
+        property.diffuse = glm::vec3(0.1f, 0.7f, 0.3f);
+        property.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+
         this->worldUp = up;
         float vertices[] = {
         -0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,
@@ -116,7 +114,7 @@ public:
         glEnableVertexAttribArray(1);
     }
 
-    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light, Camera camera, float deltatime) {
+    void draw(Shader shader, glm::mat4 projection, glm::mat4 view, Light light,SpotLight spotLight, Camera camera, float deltatime) {
         if (movement.jump == true) {
             jump(deltatime);
         }
@@ -128,22 +126,8 @@ public:
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 
         shader.setMat4("model", model);
-        shader.setMat4("projection", projection);
-        shader.setMat4("view", view);
-
-        shader.setVec3("material.diffuse", property.diffuse);
-        shader.setVec3("material.specular", property.specular);
-        shader.setFloat("material.shininess", property.shininess);
-
-        shader.setVec3("viewPos", camera.Position);
-
-        shader.setVec3("light.direction", camera.Front);
-        shader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
-        shader.setVec3("light.ambient", light.property.ambient);
-        shader.setVec3("light.position", light.property.position);
-        shader.setVec3("light.specular", light.property.specular);
-        shader.setVec3("light.diffuse", light.property.diffuse);
+        setupShader(shader, projection, view, light,spotLight, camera, property,false);
+        
 
         if (camera.view == 1) {
             glBindVertexArray(this->VAO);
@@ -171,25 +155,7 @@ public:
         if (direction == BACKWARD) {
             tmpPos = glm::vec3(-1, -1, -1) *glm::vec3(front.x, 0, front.z) * velocity;
         }
-        /*tmpX = glm::vec3(tmpPos.x*glm::sin(glm::radians(yaw - 90.0f)), 0, 0);
-        tmpZ = glm::vec3(0, 0, tmpPos.z* glm::cos(glm::radians(yaw - 90.0f)));
-
-        if (!wall.isCol(position + glm::vec3(1.1)*tmpX, 0.05, 0.05, 0.05))
-            x = true;
-        if (!wall.isCol(position + glm::vec3(1.1) *tmpZ, 0.05, 0.05, 0.05))
-            z = true;
-        std::cout << x << " " << z << std::endl;
-        std::cout << tmpX.x << " " << tmpZ.z << " " << glm::sin(glm::radians(yaw - 90.0f)) << " " << glm::cos(glm::radians(yaw - 90.0f)) <<std::endl;
-        if (x && z) {
-            position += tmpPos;
-        }
-        else if (x) {
-            position += tmpX;
-        }
-        else if (z) {
-            position += tmpZ;
-        }*/
-      
+        
         if(wall.isCol(position + glm::vec3(tmpPos.x,0,0), 0.05, 0.05, 0.05) == false) {
             position += glm::vec3(tmpPos.x, 0, 0);
         }

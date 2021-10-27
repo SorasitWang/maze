@@ -7,8 +7,7 @@
 #include <algorithm> 
 #define STB_IMAGE_IMPLEMENTATION
 #include <iostream>
-#include "shader_m.h"
-#include "Cam.h"
+#include "../header/shader_m.h"
 #include <map>
 #include <string>
 
@@ -22,11 +21,11 @@ public:
     struct properties {
         glm::vec3 position = glm::vec3(0.0f, 6.0f, 0.0f);
 
-        glm::vec3 ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+        glm::vec3 ambient = glm::vec3(0.01f, 0.01f, 0.01f);
         glm::vec3 diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
         glm::vec3 specular = glm::vec3(0.3f, 0.3f, 0.3f);
-        float cutoff = 50.0f;
-        float outerCutoff = 70.5f;
+        float cutoff = 3.0f;
+        float outerCutoff = 5.0f;
     } property;
     unsigned int VAO, VBO , depthFBO;
 
@@ -119,14 +118,17 @@ public:
     }
     void changeView() {
         if (view == 0) {
-            this->property.cutoff = 7.5f;
-            this->property.outerCutoff = 10.0f;
+
+            this->property.cutoff = 3.0f;
+            this->property.outerCutoff = 5.0f;
+            property.ambient = glm::vec3(0.01f, 0.01f, 0.01f);
             view = 1;
         }
         else {
             view = 0;
-            this->property.cutoff = 20.0f;
+            this->property.cutoff = 15.0f;
             this->property.outerCutoff = 25.0f;
+            property.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
         }
 
     }

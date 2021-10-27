@@ -7,10 +7,10 @@
 #include <algorithm> 
 #define STB_IMAGE_IMPLEMENTATION
 #include <iostream>
-#include "shader_m.h"
+#include "../header/shader_m.h"
 #include <map>
 #include <string>
-#include "model.h"
+#include "../header/model.h"
 
 const float PI = 3.1415926;
 class Compass {

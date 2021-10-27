@@ -8,15 +8,14 @@
 #include <algorithm> 
 #define STB_IMAGE_IMPLEMENTATION
 #include <iostream>
-#include "shader_m.h"
-#include "camera.h"
+#include "../header/shader_m.h"
+#include "../header/camera.h"
 #include <map>
 #include <string>
-#include "Light.h"
-#include "Cam.h"
-#include "SpotLight.h"
-#include "stb_image.h"
-#include "./Character.h"
+#include "../header/Light/Light.h"
+#include "../header/Light/SpotLight.h"
+#include "../header/stb_image.h"
+#include "../header/Character.h"
 class SkyBox {
 
 public:

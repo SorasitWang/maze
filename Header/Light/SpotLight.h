@@ -7,8 +7,8 @@
 #include <algorithm> 
 #define STB_IMAGE_IMPLEMENTATION
 #include <iostream>
-#include "shader_m.h"
-#include "Cam.h"
+#include "../header/shader_m.h"
+
 #include <map>
 #include <string>
 

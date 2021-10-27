@@ -145,53 +145,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cam1.h" />
     <ClCompile Include="Src\glad.c" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Cam.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Compass.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Rock.h" />
-    <ClInclude Include="Score.h" />
-    <ClInclude Include="shader_m.h" />
-    <ClInclude Include="Skybox.h" />
-    <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="Star.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Wall.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="as.fs" />
-    <None Include="as.vs" />
-    <None Include="compass.fs" />
-    <None Include="compass.vs" />
-    <None Include="light.fs" />
-    <None Include="light.vs" />
-    <None Include="plane.fs" />
-    <None Include="plane.vs" />
-    <None Include="rock.fs" />
-    <None Include="rock.vs" />
-    <None Include="score.fs" />
-    <None Include="score.vs" />
-    <None Include="shadow.fs" />
-    <None Include="shadow.vs" />
-    <None Include="skybox.fs" />
-    <None Include="skybox.vs" />
-    <None Include="Wall.fs" />
-    <None Include="Wall.vs" />
+    <ClInclude Include="Header\Box.h" />
+    <ClInclude Include="Header\camera.h" />
+    <ClInclude Include="Header\Character.h" />
+    <ClInclude Include="Header\Compass\Compass.h" />
+    <ClInclude Include="Header\Light\Light.h" />
+    <ClInclude Include="Header\Light\SpotLight.h" />
+    <ClInclude Include="Header\mesh.h" />
+    <ClInclude Include="Header\model.h" />
+    <ClInclude Include="Header\Plane\Plane.h" />
+    <ClInclude Include="Header\Rock\Rock.h" />
+    <ClInclude Include="Header\Score\Score.h" />
+    <ClInclude Include="Header\shader_m.h" />
+    <ClInclude Include="Header\Skybox\Skybox.h" />
+    <ClInclude Include="Header\Star.h" />
+    <ClInclude Include="Header\stb_image.h" />
+    <ClInclude Include="Header\Util.h" />
+    <ClInclude Include="Header\Wall\Wall.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\diffuse.png" />
     <Image Include="Res\TexturesCom_BrickOldDirty0125_1_M.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Header\as.fs" />
+    <None Include="Header\as.vs" />
+    <None Include="Header\Compass\compass.fs" />
+    <None Include="Header\Compass\compass.vs" />
+    <None Include="Header\Light\light.fs" />
+    <None Include="Header\Light\light.vs" />
+    <None Include="Header\Plane\plane.fs" />
+    <None Include="Header\Plane\plane.vs" />
+    <None Include="Header\Rock\rock.fs" />
+    <None Include="Header\Rock\rock.vs" />
+    <None Include="Header\Score\score.fs" />
+    <None Include="Header\Score\score.vs" />
+    <None Include="Header\shadow.fs" />
+    <None Include="Header\shadow.vs" />
+    <None Include="Header\Skybox\skybox.fs" />
+    <None Include="Header\Skybox\skybox.vs" />
+    <None Include="Header\Wall\Wall.fs" />
+    <None Include="Header\Wall\Wall.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,35 +13,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Plane">
-      <UniqueIdentifier>{278beec5-23ad-4b4b-92c7-f4f55f7ce8d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Light">
-      <UniqueIdentifier>{1d738001-f9ec-4852-9b19-21aa36284c88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Camera">
       <UniqueIdentifier>{ad6b309d-f39e-46b7-86ee-036d3645ee09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Wall">
-      <UniqueIdentifier>{651b42ac-6880-4798-bc01-fff3f3a12bb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Character">
-      <UniqueIdentifier>{d64aefc7-da4c-49bd-ac00-eef5033d4cfd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Compass">
-      <UniqueIdentifier>{4cfd0114-8c7d-47bd-861c-2ff468615b16}</UniqueIdentifier>
+    <Filter Include="Header Files\Light">
+      <UniqueIdentifier>{ecd962a1-e40f-42f4-84d1-f772cbe439e4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Rock">
-      <UniqueIdentifier>{a49bbd08-f09c-4d5e-848b-e8ea8cf29f8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Skybox">
-      <UniqueIdentifier>{77d81091-f96f-4dcd-99b4-c259553ece75}</UniqueIdentifier>
+      <UniqueIdentifier>{a6e6a64c-11e6-446f-9a58-ec6c179a245e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Score">
-      <UniqueIdentifier>{96fe2afd-811a-4d23-9993-2e29df33ead5}</UniqueIdentifier>
+      <UniqueIdentifier>{df4f909f-eef0-4e33-85ed-0827a8b23319}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Star">
-      <UniqueIdentifier>{ba6dd493-f02d-4a74-b045-18344809edbe}</UniqueIdentifier>
+    <Filter Include="Header Files\Plane">
+      <UniqueIdentifier>{1773cc0a-366b-4347-b98b-0470a651fd88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Wall">
+      <UniqueIdentifier>{93f4bd09-99ac-4f70-9946-7e1f818605a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Skybox">
+      <UniqueIdentifier>{a22eedb4-6df2-45a1-8fc7-576b5bfabdb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Compass">
+      <UniqueIdentifier>{f2be50c2-8469-429b-9767-3f811869fd99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,121 +45,62 @@
     <ClCompile Include="Src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cam1.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files\Plane</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="Header\Box.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
+    <ClInclude Include="Header\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
+    <ClInclude Include="Header\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="Header\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\shader_m.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Star.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Light\Light.h">
       <Filter>Header Files\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Cam.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>Header Files\Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Compass.h">
-      <Filter>Header Files\Compass</Filter>
-    </ClInclude>
-    <ClInclude Include="SpotLight.h">
+    <ClInclude Include="Header\Light\SpotLight.h">
       <Filter>Header Files\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Rock.h">
+    <ClInclude Include="Header\Rock\Rock.h">
       <Filter>Header Files\Rock</Filter>
     </ClInclude>
-    <ClInclude Include="Skybox.h">
-      <Filter>Header Files\Skybox</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
+    <ClInclude Include="Header\Score\Score.h">
       <Filter>Header Files\Score</Filter>
     </ClInclude>
-    <ClInclude Include="Star.h">
-      <Filter>Header Files\Star</Filter>
-    </ClInclude>
-    <ClInclude Include="shader_m.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="plane.fs">
+    <ClInclude Include="Header\Plane\Plane.h">
       <Filter>Header Files\Plane</Filter>
-    </None>
-    <None Include="plane.vs">
-      <Filter>Header Files\Plane</Filter>
-    </None>
-    <None Include="light.fs">
-      <Filter>Header Files\Light</Filter>
-    </None>
-    <None Include="light.vs">
-      <Filter>Header Files\Light</Filter>
-    </None>
-    <None Include="Wall.fs">
+    </ClInclude>
+    <ClInclude Include="Header\Wall\Wall.h">
       <Filter>Header Files\Wall</Filter>
-    </None>
-    <None Include="Wall.vs">
-      <Filter>Header Files\Wall</Filter>
-    </None>
-    <None Include="compass.fs">
-      <Filter>Header Files\Compass</Filter>
-    </None>
-    <None Include="compass.vs">
-      <Filter>Header Files\Compass</Filter>
-    </None>
-    <None Include="rock.fs">
-      <Filter>Header Files\Rock</Filter>
-    </None>
-    <None Include="rock.vs">
-      <Filter>Header Files\Rock</Filter>
-    </None>
-    <None Include="skybox.vs">
+    </ClInclude>
+    <ClInclude Include="Header\Skybox\Skybox.h">
       <Filter>Header Files\Skybox</Filter>
-    </None>
-    <None Include="skybox.fs">
-      <Filter>Header Files\Skybox</Filter>
-    </None>
-    <None Include="score.vs">
-      <Filter>Header Files\Score</Filter>
-    </None>
-    <None Include="score.fs">
-      <Filter>Header Files\Score</Filter>
-    </None>
-    <None Include="as.fs">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="as.vs">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="shadow.vs">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="shadow.fs">
-      <Filter>Header Files</Filter>
-    </None>
+    </ClInclude>
+    <ClInclude Include="Header\Compass\Compass.h">
+      <Filter>Header Files\Compass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\TexturesCom_BrickOldDirty0125_1_M.jpg">
@@ -174,5 +109,61 @@
     <Image Include="Res\diffuse.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Header\as.fs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Header\as.vs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Header\shadow.fs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Header\shadow.vs">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Header\Light\light.fs">
+      <Filter>Header Files\Light</Filter>
+    </None>
+    <None Include="Header\Light\light.vs">
+      <Filter>Header Files\Light</Filter>
+    </None>
+    <None Include="Header\Rock\rock.fs">
+      <Filter>Header Files\Rock</Filter>
+    </None>
+    <None Include="Header\Rock\rock.vs">
+      <Filter>Header Files\Rock</Filter>
+    </None>
+    <None Include="Header\Score\score.fs">
+      <Filter>Header Files\Score</Filter>
+    </None>
+    <None Include="Header\Score\score.vs">
+      <Filter>Header Files\Score</Filter>
+    </None>
+    <None Include="Header\Plane\plane.fs">
+      <Filter>Header Files\Plane</Filter>
+    </None>
+    <None Include="Header\Plane\plane.vs">
+      <Filter>Header Files\Plane</Filter>
+    </None>
+    <None Include="Header\Wall\Wall.fs">
+      <Filter>Header Files\Wall</Filter>
+    </None>
+    <None Include="Header\Wall\Wall.vs">
+      <Filter>Header Files\Wall</Filter>
+    </None>
+    <None Include="Header\Skybox\skybox.fs">
+      <Filter>Header Files\Skybox</Filter>
+    </None>
+    <None Include="Header\Skybox\skybox.vs">
+      <Filter>Header Files\Skybox</Filter>
+    </None>
+    <None Include="Header\Compass\compass.fs">
+      <Filter>Header Files\Compass</Filter>
+    </None>
+    <None Include="Header\Compass\compass.vs">
+      <Filter>Header Files\Compass</Filter>
+    </None>
   </ItemGroup>
 </Project>

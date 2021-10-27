@@ -31,18 +31,19 @@ uniform Material material;
 uniform Light light;
 uniform Light spotLight;
 uniform sampler2D shadowMap;
+uniform bool drawShadow;
 
-vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos,vec2 TexCoords);
+vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos,vec2 TexCoords,bool drawShadow);
 float ShadowCalculation(vec4 fragPosLightSpace,float bias);
 
 void main()
 {
-    vec3 result = calculate(light,Normal,viewPos,FragPos,TexCoords) +calculate(spotLight,Normal,viewPos,FragPos, TexCoords); 
+    vec3 result = calculate(light,Normal,viewPos,FragPos,TexCoords,drawShadow) + calculate(spotLight,Normal,viewPos,FragPos, TexCoords,drawShadow); 
     
     FragColor = vec4(result,1.0);
 } 
 
-vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos,vec2 TexCoords){
+vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos,vec2 TexCoords,bool drawShadow){
 
    vec3 lightDir = normalize(light.position - FragPos);
    float theta = dot(lightDir, normalize(-light.direction));
@@ -65,7 +66,6 @@ vec3 calculate(Light light,vec3 Normal, vec3 viewPos,vec3 FragPos,vec2 TexCoords
 
     float bias = max(0.05 * (1.0 - dot(norm, lightDir)), 0.005);
     float shadow = ShadowCalculation(FragPosLightSpace,bias);
-
     diffuse *= intensity;
     specular *= intensity;
     vec3 result = ambient+ ((1.0-shadow) * (diffuse + specular));
