@@ -27,3 +27,8 @@ Collect all stars and find the goal!
 https://user-images.githubusercontent.com/60053627/135713069-9fd8d0ff-7fa7-46ce-ab8f-7bcdab55a5cc.mp4
 
 
+
+## Credit
+   Study from https://learnopengl.com/ and also some of the code. 
+
+
